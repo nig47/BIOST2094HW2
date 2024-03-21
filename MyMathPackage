@@ -1,0 +1,70 @@
+```{r}
+
+create("MyMathPackage")
+
+# Place sqrt.2() and log.2() in sqrt.R and log.R respectively
+writeLines('
+sqrt.2 <- function(x) {
+  if (x < 0) {
+    abort(class = "invalid_input", message = "Negative input", x = x)
+  } else {
+    return(sqrt(x))
+  }
+}', "MyMathPackage/R/sqrt.R")
+
+writeLines('
+log.2 <- function(x) {
+  if (x <= 0) {
+    abort(class = "invalid_input", message = "Non-positive input", x = x)
+  } else {
+    return(log(x))
+  }
+}', "MyMathPackage/R/log.R")
+
+# Step 3: Write documentation using roxygen2 syntax
+# Place roxygen2 documentation comments above each function
+
+# sqrt.2 documentation
+writeLines('
+# Compute square root with error handling for negative input
+# @param x Numeric input
+# @return Numeric square root of x if x >= 0, otherwise returns error condition object
+# @export
+sqrt.2 <- function(x) {
+  if (x < 0) {
+    abort(class = "invalid_input", message = "Negative input", x = x)
+  } else {
+    return(sqrt(x))
+  }
+}', "MyMathPackage/R/sqrt.R")
+
+# log.2 documentation
+writeLines('
+# Compute natural logarithm with error handling for non-positive input
+# @param x Numeric input
+# @return Numeric natural logarithm of x if x > 0, otherwise returns error condition object
+# @export
+log.2 <- function(x) {
+  if (x <= 0) {
+    abort(class = "invalid_input", message = "Non-positive input", x = x)
+  } else {
+    return(log(x))
+  }
+}', "MyMathPackage/R/log.R")
+
+
+document("MyMathPackage")
+
+
+build("MyMathPackage")
+check("MyMathPackage")
+
+# Step 6: Optionally, upload the package to GitHub
+# Assuming you have GitHub account and have set up git locally
+# setwd("MyMathPackage")
+# use_git()
+# use_github()
+# commit()
+# push()
+pkgbuild::check_build_tools(debug = TRUE) 
+```
